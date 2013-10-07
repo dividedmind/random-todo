@@ -5,9 +5,12 @@
 #include <kcalcore/todo.h>
 #include <QStringList>
 #include <QCoreApplication>
+#include <ctime>
 
 random_todo::random_todo()
 {
+  qsrand(time(nullptr));
+  
   QStringList mimetypes{"application/x-vnd.akonadi.calendar.todo"};
   Akonadi::ItemFetchScope scope;
   scope.fetchFullPayload(true);
@@ -20,7 +23,7 @@ random_todo::random_todo()
 
 void random_todo::finished()
 {
-  int index = qrand() * job->items().count() / RAND_MAX;
+  int index = qrand() % job->items().count();
   Akonadi::Item item = job->items()[index];
   auto todo = item.payload<KCalCore::Todo::Ptr>();
   std::cout << todo->summary().toLocal8Bit().constData() << std::endl;
