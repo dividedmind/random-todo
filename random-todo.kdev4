@@ -1,0 +1,4 @@
+[Project]
+Name=random-todo
+Manager=KDevCMakeManager
+VersionControl=kdevgit
