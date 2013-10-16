@@ -1,19 +1,19 @@
-#ifndef random_todo_H
-#define random_todo_H
+#ifndef akorandom_H
+#define akorandom_H
 
 #include <QtCore/QObject>
 
 namespace Akonadi {
-class RecursiveItemFetchJob;
+  class RecursiveItemFetchJob;
 }
 
-class random_todo : public QObject
+class Akorandom : public QObject
 {
 Q_OBJECT
     Akonadi::RecursiveItemFetchJob* job;
 public:
-    random_todo();
-    virtual ~random_todo();
+    Akorandom();
+    virtual ~Akorandom();
 
 private slots:
     void finished();

@@ -1,10 +1,9 @@
 #include <QCoreApplication>
-#include "random-todo.h"
-
+#include "akorandom.h"
 
 int main(int argc, char** argv)
 {
     QCoreApplication app(argc, argv);
-    random_todo foo;
+    Akorandom foo;
     return app.exec();
 }

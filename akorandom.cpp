@@ -1,4 +1,4 @@
-#include "random-todo.h"
+#include "akorandom.h"
 #include "akonadi/recursiveitemfetchjob.h"
 #include <akonadi/collection.h>
 #include <akonadi/itemfetchscope.h>
@@ -7,7 +7,7 @@
 #include <QCoreApplication>
 #include <ctime>
 
-random_todo::random_todo()
+Akorandom::Akorandom()
 {
   qsrand(time(nullptr));
   
@@ -21,7 +21,7 @@ random_todo::random_todo()
   job->start();
 }
 
-void random_todo::finished()
+void Akorandom::finished()
 {
   int index = qrand() % job->items().count();
   Akonadi::Item item = job->items()[index];
@@ -32,7 +32,7 @@ void random_todo::finished()
 }
 
 
-random_todo::~random_todo()
+Akorandom::~Akorandom()
 {}
 
-#include "random-todo.moc"
+#include "akorandom.moc"
