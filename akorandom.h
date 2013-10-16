@@ -12,16 +12,18 @@ class Akorandom : public QObject
 Q_OBJECT
 public:
     enum Kind {
-      Todos
+      Todos,
+      Contacts
     };
 
-    Akorandom(Kind kind = Todos);
+    Akorandom(Kind kind);
     virtual ~Akorandom();
     
 private slots:
     void finished();
     
 private:
+    Kind kind;
     Akonadi::RecursiveItemFetchJob* job;
 };
 

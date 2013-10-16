@@ -3,11 +3,12 @@
 #include <akonadi/collection.h>
 #include <akonadi/itemfetchscope.h>
 #include <kcalcore/todo.h>
+#include <kabc/addressee.h>
 #include <QStringList>
 #include <QCoreApplication>
 #include <ctime>
 
-Akorandom::Akorandom(Kind kind)
+Akorandom::Akorandom(Kind _kind) : kind(_kind)
 {
   qsrand(time(nullptr));
   
@@ -16,6 +17,9 @@ Akorandom::Akorandom(Kind kind)
   switch(kind) {
     case Todos:
       mimetypes = {"application/x-vnd.akonadi.calendar.todo"};
+      break;
+    case Contacts:
+      mimetypes = {"text/directory"};
   };
   
   Akonadi::ItemFetchScope scope;
@@ -30,10 +34,28 @@ Akorandom::Akorandom(Kind kind)
 
 void Akorandom::finished()
 {
-  int index = qrand() % job->items().count();
-  Akonadi::Item item = job->items()[index];
-  auto todo = item.payload<KCalCore::Todo::Ptr>();
-  std::cout << todo->summary().toLocal8Bit().constData() << std::endl;
+  QTextStream qout(stdout);
+  qout.setCodec("UTF-8");
+  
+  if (job->items().empty())
+    qout << "no items found" << endl;
+  else {
+    int index = qrand() % job->items().count();    
+    Akonadi::Item item = job->items()[index];
+    
+    switch (kind) {
+      case Todos: {
+        auto todo = item.payload<KCalCore::Todo::Ptr>();
+        qout << todo->summary().toLocal8Bit().constData() << endl;
+        break;
+      }
+      case Contacts: {
+        auto contact = item.payload<KABC::Addressee>();
+        qout << contact.realName() << endl;
+        break;
+      }
+    }
+  }
   
   QCoreApplication::exit();
 }
