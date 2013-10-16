@@ -7,13 +7,20 @@
 #include <QCoreApplication>
 #include <ctime>
 
-Akorandom::Akorandom()
+Akorandom::Akorandom(Kind kind)
 {
   qsrand(time(nullptr));
   
-  QStringList mimetypes{"application/x-vnd.akonadi.calendar.todo"};
+  QStringList mimetypes;
+  
+  switch(kind) {
+    case Todos:
+      mimetypes = {"application/x-vnd.akonadi.calendar.todo"};
+  };
+  
   Akonadi::ItemFetchScope scope;
   scope.fetchFullPayload(true);
+  
   job = new Akonadi::RecursiveItemFetchJob(Akonadi::Collection::root(), mimetypes, this);
   job->setFetchScope(scope);
   

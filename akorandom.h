@@ -10,13 +10,19 @@ namespace Akonadi {
 class Akorandom : public QObject
 {
 Q_OBJECT
-    Akonadi::RecursiveItemFetchJob* job;
 public:
-    Akorandom();
-    virtual ~Akorandom();
+    enum Kind {
+      Todos
+    };
 
+    Akorandom(Kind kind = Todos);
+    virtual ~Akorandom();
+    
 private slots:
     void finished();
+    
+private:
+    Akonadi::RecursiveItemFetchJob* job;
 };
 
 #endif // random_todo_H
