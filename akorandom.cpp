@@ -8,7 +8,7 @@
 #include <QCoreApplication>
 #include <ctime>
 
-Akorandom::Akorandom(Kind _kind) : kind(_kind)
+Akorandom::Akorandom(Akorandom::Kind _kind, unsigned int _count) : kind(_kind), count(_count)
 {
   qsrand(time(nullptr));
   
@@ -40,21 +40,23 @@ void Akorandom::finished()
   if (job->items().empty())
     qout << "no items found" << endl;
   else {
-    int index = qrand() % job->items().count();    
-    Akonadi::Item item = job->items()[index];
+    Akonadi::Item::List items = job->items();
+    std::random_shuffle(items.begin(), items.end());
+    auto item = items.begin();
     
-    switch (kind) {
-      case Todos: {
-        auto todo = item.payload<KCalCore::Todo::Ptr>();
-        qout << todo->summary() << endl;
-        break;
+    for (unsigned int i = 0; i < count; ++i)
+      switch (kind) {
+        case Todos: {
+          auto todo = (item++)->payload<KCalCore::Todo::Ptr>();
+          qout << todo->summary() << endl;
+          break;
+        }
+        case Contacts: {
+          auto contact = (item++)->payload<KABC::Addressee>();
+          qout << contact.realName() << endl;
+          break;
+        }
       }
-      case Contacts: {
-        auto contact = item.payload<KABC::Addressee>();
-        qout << contact.realName() << endl;
-        break;
-      }
-    }
   }
   
   QCoreApplication::exit();

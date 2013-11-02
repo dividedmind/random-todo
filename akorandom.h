@@ -16,7 +16,7 @@ public:
       Contacts
     };
 
-    Akorandom(Kind kind);
+    Akorandom(Kind kind, unsigned int count = 1);
     virtual ~Akorandom();
     
 private slots:
@@ -24,6 +24,7 @@ private slots:
     
 private:
     Kind kind;
+    unsigned int count;
     Akonadi::RecursiveItemFetchJob* job;
 };
 

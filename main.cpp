@@ -7,12 +7,19 @@ int main(int argc, char** argv)
 {
     QCoreApplication app(argc, argv);
     Akorandom::Kind kind = Akorandom::Todos;
+    unsigned int count = 1;
     
     const QStringList &arguments = app.arguments();
+    auto argument = arguments.begin() + 1;
     
-    if (arguments.count() > 1 && arguments.at(1).startsWith("c"))
+    if (argument != arguments.end() && argument->startsWith("c")) {
+      argument++;
       kind = Akorandom::Contacts;
+    }
     
-    Akorandom foo(kind);
+    if (argument != arguments.end())
+      count = argument->toUInt();
+    
+    Akorandom foo(kind, count);
     return app.exec();
 }
