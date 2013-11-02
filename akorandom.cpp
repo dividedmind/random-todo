@@ -46,7 +46,7 @@ void Akorandom::finished()
     switch (kind) {
       case Todos: {
         auto todo = item.payload<KCalCore::Todo::Ptr>();
-        qout << todo->summary().toLocal8Bit().constData() << endl;
+        qout << todo->summary() << endl;
         break;
       }
       case Contacts: {
